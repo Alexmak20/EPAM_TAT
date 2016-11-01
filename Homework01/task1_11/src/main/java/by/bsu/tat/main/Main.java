@@ -1,6 +1,7 @@
 package by.bsu.tat.main;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,11 +19,12 @@ public class Main {
      */
 
     public static void main(String[] args) {
+        ArrayList<Reader> point = Reader.read();
         HashMap<String, Moveable> transport = new HashMap<>();
-        transport.put("Car", new Car());
-        transport.put("Bus", new Bus());
-        transport.put("Bicycle", new Bicycle());
-        transport.put("OnFoot", new OnFoot());
+        transport.put("Car", new Car(point));
+        transport.put("Bus", new Bus(point));
+        transport.put("Bicycle", new Bicycle(20,point));
+        transport.put("OnFoot", new OnFoot(5,point));
         for (Map.Entry<String, Moveable> tr : transport.entrySet()) {
             System.out.println("Transport : " + tr.getKey());
             System.out.println("Time = " + tr.getValue().getTime());

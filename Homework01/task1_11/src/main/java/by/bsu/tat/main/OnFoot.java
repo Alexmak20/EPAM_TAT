@@ -10,41 +10,26 @@ import java.util.ArrayList;
  */
 public class OnFoot implements Moveable {
 
-    private double speed;
+    private ArrayList<Reader> point;
+    private double speed = 5;
+    Distance distance = new Distance();
 
     /**
-     * creating object of bicycle
+     * Creating object of onFoot.
      */
-    public OnFoot() {
-        this.speed = 5;
+    public OnFoot(double speed, ArrayList<Reader> point) {
+
+        this.speed = speed;
+        this.point = point;
     }
 
-    /**
-     * calculating distance
-     *
-     * @return double distance
-     */
-    @Override
-    public double calculateDistance() {
-        double distance = 0;
-        double X;
-        double Y;
-        ArrayList<Reader> point = Reader.read();
-        for (int i = 1; i < point.size(); i++) {
-            X = (point.get(i).x - point.get(i - 1).x);
-            Y = (point.get(i).y - point.get(i - 1).y);
-            distance += Math.sqrt(Math.pow(X, 2) + Math.pow(Y, 2));
-        }
-        return distance;
-    }
 
     /**
      * Can onfoot move or not.
-     * @return boolean, if can-true, if can't-false.
+     * @return boolean, if point can true, if point can't false.
      */
     @Override
-    public boolean moveToPoint() {
-        ArrayList<Reader> point = Reader.read();
+    public boolean movePoint() {
         if (!(point.get(0) == point.get(point.size() - 1))) {
             return true;
         } else {
@@ -67,9 +52,8 @@ public class OnFoot implements Moveable {
      */
     @Override
     public double getTime() {
-        double distance;
-        distance = calculateDistance();
-        double time = (distance / speed) * 60;
+        double route = distance.distance(point);
+        double time = (route / speed) * 60;
         return time;
     }
 }

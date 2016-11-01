@@ -1,10 +1,7 @@
 package by.bsu.tat.main;
 
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 /**
@@ -13,7 +10,7 @@ import java.util.ArrayList;
  */
 public class Reader {
 
-    public static String s = "Coordinates.txt";
+    private static String s = "Coordinates.txt";
 
     public double x;
     public double y;

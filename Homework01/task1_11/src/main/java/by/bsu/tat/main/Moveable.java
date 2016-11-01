@@ -7,15 +7,9 @@ package by.bsu.tat.main;
 public interface Moveable {
 
     /**
-     * Calculate distance.
-     * @return traversed path.
-     */
-   double calculateDistance();
-
-    /**
      * Check,can transport or man go or no.
      */
-    boolean moveToPoint();
+    boolean movePoint();
     /**
      * Price of passage.
      * @return price of passage.

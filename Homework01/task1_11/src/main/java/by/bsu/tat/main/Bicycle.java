@@ -10,40 +10,25 @@ import java.util.ArrayList;
  */
 public class Bicycle implements Moveable {
 
-    private double speed;
+    private ArrayList<Reader> point;
+    private double speed = 20;
+    Distance distance = new Distance();
+
 
     /**
      * Creating speed of bicycle.
      */
-    public Bicycle() {
-        this.speed = 20;
-    }
-
-    /**
-     * Calculating distance.
-     * @return double distance.
-     */
-    @Override
-    public double calculateDistance() {
-        double distance = 0;
-        double X;
-        double Y;
-        ArrayList<Reader> point = Reader.read();
-        for (int i = 1; i < point.size(); i++) {
-            X = (point.get(i).x - point.get(i - 1).x);
-            Y = (point.get(i).y - point.get(i - 1).y);
-            distance += Math.sqrt(Math.pow(X, 2) + Math.pow(Y, 2));
-        }
-        return distance;
+    public Bicycle(double speed, ArrayList<Reader> point) {
+        this.speed = speed;
+        this.point = point;
     }
 
     /**
      * Can bicycle move or not.
-     * @return boolean, if can-true, if can't-false
+     * @return boolean, if point can true, if point can't false.
      */
     @Override
-    public boolean moveToPoint() {
-        ArrayList<Reader> point = Reader.read();
+    public boolean movePoint() {
         if (!(point.get(0) == point.get(point.size() - 1))) {
             return true;
         } else {
@@ -52,11 +37,12 @@ public class Bicycle implements Moveable {
     }
 
     /**
-     * calculating price of passage.
+     * Calculating price of passage.
      * @return double price.
      */
     @Override
     public double getPrice() {
+
         return 0;
     }
 
@@ -66,9 +52,8 @@ public class Bicycle implements Moveable {
      */
     @Override
     public double getTime() {
-        double distance;
-        distance = calculateDistance();
-        double time = (distance / speed) * 60;
+        double route = distance.distance(point);
+        double time = (route / speed) * 60;
         return time;
     }
 }

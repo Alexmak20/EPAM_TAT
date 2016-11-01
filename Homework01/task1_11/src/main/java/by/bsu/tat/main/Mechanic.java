@@ -9,10 +9,7 @@ package by.bsu.tat.main;
 public abstract class Mechanic implements Moveable {
 
     @Override
-    public abstract boolean moveToPoint();
-
-    @Override
-    public abstract double calculateDistance();
+    public abstract boolean movePoint();
 
 }
 

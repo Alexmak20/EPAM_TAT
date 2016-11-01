@@ -9,36 +9,23 @@ import java.util.ArrayList;
  * @author Alexey Makovski.
  */
 public class Car extends Mechanic {
+    private ArrayList<Reader> point;
     private double speed = 100;
     private int passengers = 1;
     private double priceOfFuel = 0.57;
     private double consumption = 6.5;
+    Distance distance = new Distance();
 
 
-    /**
-     * Calculating distance.
-     * @return traversed path.
-     */
-    @Override
-    public double calculateDistance() {
-        double distance = 0;
-        double X;
-        double Y;
-        ArrayList<Reader> point = Reader.read();
-        for (int i = 1; i < point.size(); i++) {
-            X = (point.get(i).x - point.get(i - 1).x);
-            Y = (point.get(i).y - point.get(i - 1).y);
-            distance += Math.sqrt(Math.pow(X, 2) + Math.pow(Y, 2));
-        }
-        return distance;
+    public Car(ArrayList<Reader> point) {
+        this.point = point;
     }
 
     /**
      * Can car move or not
-     * @return boolean, if can-true, if can't-false
+     * @return boolean, if point can true, if point can't false.
      */
-    public boolean moveToPoint() {
-        ArrayList<Reader> point = Reader.read();
+    public boolean movePoint() {
         if (!(point.get(0) == point.get(point.size() - 1))) {
             return true;
         } else {
@@ -52,9 +39,8 @@ public class Car extends Mechanic {
      */
     @Override
     public double getPrice() {
-        double distance;
-        distance = calculateDistance();
-        double value = distance * consumption * passengers * priceOfFuel / 100;
+        double route = distance.distance(point);
+        double value = route * consumption * passengers * priceOfFuel / 100;
         return value;
     }
 
@@ -64,9 +50,8 @@ public class Car extends Mechanic {
      */
     @Override
     public double getTime() {
-        double distance;
-        distance = calculateDistance();
-        double time = (distance / speed) * 60;
+        double route = distance.distance(point);
+        double time = (route / speed) * 60;
         return time;
     }
 
