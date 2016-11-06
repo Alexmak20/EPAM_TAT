@@ -19,13 +19,12 @@
             </plugin>
         </plugins>
     </build>
-
     <dependencies>
-            <dependency>
-                    <groupId>org.testng</groupId>
-                    <artifactId>testng</artifactId>
-                    <version>6.8</version>
-            </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.8</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-resources-plugin</artifactId>
@@ -33,4 +32,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
 </project>
