@@ -4,6 +4,9 @@ package by.bsu.tat.main;
 import java.io.*;
 import java.util.ArrayList;
 
+
+import static java.lang.Double.*;
+
 /**
  * Class read coordinates.
  * @author Alexey Makovski.
@@ -23,6 +26,7 @@ public class Reader {
     public Reader(double x, double y) {
         this.x = x;
         this.y = y;
+
     }
 
     /**

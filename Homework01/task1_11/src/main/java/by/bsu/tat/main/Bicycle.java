@@ -13,6 +13,7 @@ public class Bicycle implements Moveable {
     private ArrayList<Reader> point;
     private double speed = 20;
     Distance distance = new Distance();
+<<<<<<< HEAD
 
 
     /**
@@ -22,6 +23,18 @@ public class Bicycle implements Moveable {
         this.speed = speed;
         this.point = point;
     }
+
+=======
+
+
+    /**
+     * Creating speed of bicycle.
+     */
+    public Bicycle(double speed, ArrayList<Reader> point) {
+        this.speed = speed;
+        this.point = point;
+    }
+>>>>>>> master
 
     /**
      * Can bicycle move or not.

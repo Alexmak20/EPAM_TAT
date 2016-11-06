@@ -1,5 +1,7 @@
 package by.bsu.tat.main;
 
+import java.util.ArrayList;
+
 /**
  * Interface comprises moving over the points, time and cost.
  * @author Alexey Makovski.
@@ -21,7 +23,5 @@ public interface Moveable {
      * @return time of passage.
      */
     double getTime();
-
-
 
 }

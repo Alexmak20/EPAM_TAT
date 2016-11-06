@@ -21,6 +21,13 @@ public class Bus extends Mechanic {
         this.point = point;
     }
 
+<<<<<<< HEAD
+    public Bus() {
+
+    }
+
+=======
+>>>>>>> master
     /**
      * Can bus move or not
      * @return boolean, if point can true, if point can't false.
