@@ -5,13 +5,21 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NodeList;
 
-import static org.testng.Assert.assertEquals;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
 
 /**
  * @author Alexey Makovski.
  */
 public class CheckTest {
+    private static final String NEGATIVE = "negative";
+    private static final String POSITIVE = "positive";
+    private static final String TYPE_TRIANGLE = "type";
     private Check check;
 
     @BeforeTest
@@ -19,91 +27,98 @@ public class CheckTest {
         check = new Check();
     }
 
-    @DataProvider(name = "positive of Equilateral")
-    public Object[][] getNumber() {
-        return new Object[][]{
-                {1.0, 1.0, 1.0},
-                {Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE},
-                {10.0, 10.0, 10.0},
-                {156.3, 156.3, 156.3},
-                {1765.67, 1765.67, 1765.67},
-        };
+    @DataProvider(name = "negative")
+    public Object[][] readXML() throws Exception {
+        File file = new File("./test.number.xml");
+        DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = fact.newDocumentBuilder();
+
+        Document doc = builder.parse(file);
+        NodeList nodes = doc.getElementsByTagName(NEGATIVE);
+        Object[][] result = new Double[nodes.getLength()][];
+        for (int i = 0; i < nodes.getLength(); i++) {
+            double a;
+            double b;
+            double c;
+            NamedNodeMap attrs = nodes.item(i).getAttributes();
+            if (attrs.getNamedItem("a").getNodeValue().equals("MAX_VALUE")) {
+                a = Double.MAX_VALUE;
+            } else if (attrs.getNamedItem("a").getNodeValue().equals("MIN_VALUE")) {
+                a = Double.MIN_VALUE;
+            } else {
+                a = Double.parseDouble(attrs.getNamedItem("a").getNodeValue());
+            }
+            if (attrs.getNamedItem("b").getNodeValue().equals("MAX_VALUE")) {
+                b = Double.MAX_VALUE;
+            } else if (attrs.getNamedItem("b").getNodeValue().equals("MIN_VALUE")) {
+                b = Double.MIN_VALUE;
+            } else {
+                b = Double.parseDouble(attrs.getNamedItem("b").getNodeValue());
+            }
+            if (attrs.getNamedItem("c").getNodeValue().equals("MAX_VALUE")) {
+                c = Double.MAX_VALUE;
+            } else if (attrs.getNamedItem("c").getNodeValue().equals("MIN_VALUE")) {
+                c = Double.MIN_VALUE;
+            } else {
+                c = Double.parseDouble(attrs.getNamedItem("c").getNodeValue());
+            }
+            result[i] = new Double[]{a, b, c,};
+        }
+        return result;
     }
 
-    @Test(dataProvider = "positive of Equilateral")
-    public void testEquilateralType(double a, double b, double c) throws Exception {
+    @Test(dataProvider = "negative", expectedExceptions = Exception.class)
+    public void testSideTriangle(Double a, Double b, Double c) throws Exception {
         check = new Check(a, b, c);
-        assertEquals(check.sideTriangle(), "This  Equilateral triangle");
+        check.check();
+        Assert.assertEquals(check.sideTriangle(), Exception.class);
     }
 
-    @DataProvider(name = "positive of Isosceles ")
-    public Object[][] getIsoscelesNumber() {
-        return new Object[][]{
-                {3.0, 5.0, 5.0},
-                {Double.MAX_VALUE, Double.MAX_VALUE, 10000000},
-                {10000000, Double.MAX_VALUE, Double.MAX_VALUE},
-                {10.0, 10.0, 15},
-                {150, 156.3, 156.3},
-                {1500, 1765.67, 1765.67},
-                {135, 135, 134.99999},
-                {1765.67406, 1765.67456, 1765.67456},
-
-        };
+    @DataProvider(name = "positive")
+    public Object[][] readXMLTriangular() throws Exception {
+        File file = new File("./test.number.xml");
+        DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = fact.newDocumentBuilder();
+        Document doc = builder.parse(file);
+        NodeList nodes = doc.getElementsByTagName(POSITIVE);
+        Object[][] result = new Object[nodes.getLength()][];
+        for (int i = 0; i < nodes.getLength(); i++) {
+            double a;
+            double b;
+            double c;
+            String type;
+            NamedNodeMap attrs = nodes.item(i).getAttributes();
+            if (attrs.getNamedItem("a").getNodeValue().equals("MAX_VALUE")) {
+                a = Double.MAX_VALUE;
+            } else if (attrs.getNamedItem("a").getNodeValue().equals("MIN_VALUE")) {
+                a = Double.MIN_VALUE;
+            } else {
+                a = Double.parseDouble(attrs.getNamedItem("a").getNodeValue());
+            }
+            if (attrs.getNamedItem("b").getNodeValue().equals("MAX_VALUE")) {
+                b = Double.MAX_VALUE;
+            } else if (attrs.getNamedItem("b").getNodeValue().equals("MIN_VALUE")) {
+                b = Double.MIN_VALUE;
+            } else {
+                b = Double.parseDouble(attrs.getNamedItem("b").getNodeValue());
+            }
+            if (attrs.getNamedItem("c").getNodeValue().equals("MAX_VALUE")) {
+                c = Double.MAX_VALUE;
+            } else if (attrs.getNamedItem("c").getNodeValue().equals("MIN_VALUE")) {
+                c = Double.MIN_VALUE;
+            } else {
+                c = Double.parseDouble(attrs.getNamedItem("c").getNodeValue());
+            }
+            type = attrs.getNamedItem(TYPE_TRIANGLE).getNodeValue();
+            result[i] = new Object[]{a, b, c,type};
+        }
+        return result;
     }
 
-    @Test(dataProvider = "positive of Isosceles ")
-    public void testIsoscelesType(double a, double b, double c) throws Exception {
+    @Test(dataProvider = "positive")
+    public void testType(double a, double b, double c, String type) throws Exception {
         check = new Check(a, b, c);
-        assertEquals(check.sideTriangle(), "This Isosceles triangle");
-    }
-
-    @DataProvider(name = "positive of Simple")
-    public Object[][] getSimpleNumber() {
-        return new Object[][]{
-                {10.0, 45.0, 37.0},
-                {45.4, 65.8, 32.6},
-                {130.6, 234.0, 124.7},
-                {1.0, 2.0, 3.0},
-                {1.75, 2.55, 3.25},
-        };
-    }
-
-    @Test(dataProvider = "positive of Simple")
-    public void testSimpleType(double a, double b, double c) throws Exception {
-        check = new Check(a, b, c);
-        assertEquals(check.sideTriangle(), "This Simple triangle");
-    }
-
-    @DataProvider(name = "un correct values")
-    public Object[][] negativeValues() throws Exception {
-        return new Object[][]{
-                {0, 5, 5},
-                {-5, 5, 0},
-                {10, Double.NEGATIVE_INFINITY, 1},
-                {10, Double.NaN, 23},
-                {45, Double.POSITIVE_INFINITY, 7},
-                {45, 7, Double.POSITIVE_INFINITY},
-                {Double.POSITIVE_INFINITY, 7, 45},
-                {Double.NaN, 23, 10},
-                {10, 23, Double.NaN},
-                {10, 1, Double.NEGATIVE_INFINITY},
-                {Double.NEGATIVE_INFINITY, 1, 10},
-                {"oifjroe", "ofhwfo", "oiwhfwiohf"},
-                {"ioejiofwj 834982", "847239847 jdhfwefhw", "ofwhi 897 wioefh"},
-                {"8932749823 89472983 jdhfoiwefh", "owhiefwo 9098098 90384092",
-                        "0934850934 jofijeofw 9046085"},
-                {"34534.34534", "3453453.3535", "435345.4535"},
-                {0.0, 0.0, 0.0},
-                {Double.MIN_VALUE, 1000000.0000, Double.MIN_VALUE},
-                {Double.MIN_VALUE, Double.MIN_VALUE, 1000000.0000},
-                {1000000.0000, Double.MIN_VALUE, Double.MIN_VALUE}
-        };
-    }
-
-    @Test(dataProvider = "un correct values", expectedExceptions = Exception.class)
-    public void testSideTriangle(double a, double b, double c) throws Exception {
-        check = new Check(a, b, c);
-        Assert.assertEquals(check.sideTriangle(), "Not a triangular");
+        Assert.assertEquals(check.sideTriangle(), type);
     }
 
 }
