@@ -1,0 +1,6 @@
+{
+  "commands" : [
+    "google open http://www.google.com 5000",
+    "google checkPageContains \"The best search engine\""
+  ]
+}

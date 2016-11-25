@@ -1,0 +1,2 @@
+google open "http://www.google.com" "5000"
+google checkPageTitle "Google Search Page"

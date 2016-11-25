@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+    <commands id="google" command="open" address="http://www.google.com" time="5000"/>
+    <commands id="google" command="checkPageTitle" attribute="Google Search Page"/>
+    <commands id="google" command="checkPageContains" attribute="The best search engine"/>
+</data>
